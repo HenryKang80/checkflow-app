@@ -1,12 +1,4 @@
 "icons": [
-  {
-    "src": "/checkflow_final_icon_192.png",
-    "sizes": "192x192",
-    "type": "image/png"
-  },
-  {
-    "src": "/checkflow_final_icon_512.png",
-    "sizes": "512x512",
-    "type": "image/png"
-  }
-],
+  { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+  { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+]
