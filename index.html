@@ -4,10 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CheckFlow</title>
-
-  <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/checkflow_icon_192.png">
-  
   <style>
     * { box-sizing: border-box; }
 
@@ -62,6 +58,13 @@
       gap: 10px;
       align-items: center;
       margin-bottom: 18px;
+    }
+
+    .category-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      min-width: 260px;
     }
 
     .categories {
@@ -162,9 +165,13 @@
 
     .list-toolbar {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 8px;
       margin-bottom: 14px;
+    }
+
+    .list-toolbar .small-btn {
+      width: 100%;
     }
 
     .list-card {
@@ -257,6 +264,33 @@
       margin-top: 8px;
       font-size: 14px;
       color: #71717a;
+    }
+
+    .date-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      max-width: 320px;
+      border-radius: 18px;
+      background: #f4f4f5;
+      padding: 10px 12px;
+    }
+
+    .date-row label {
+      font-size: 12px;
+      font-weight: 900;
+      color: #71717a;
+      white-space: nowrap;
+    }
+
+    .date-row input {
+      border: 0;
+      background: transparent;
+      outline: none;
+      color: #09090b;
+      font-weight: 800;
+      width: 100%;
     }
 
     .top-actions {
@@ -381,12 +415,42 @@
       cursor: pointer;
     }
 
+    .memo-box {
+      margin-top: 16px;
+      border: 1px solid #e4e4e7;
+      border-radius: 22px;
+      padding: 15px;
+      background: #ffffff;
+    }
+
+    .memo-box label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 900;
+      color: #71717a;
+    }
+
+    .memo-box textarea {
+      width: 100%;
+      min-height: 54px;
+      resize: vertical;
+      border: 0;
+      outline: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.5;
+      color: #09090b;
+    }
+
     @media (max-width: 850px) {
       h1 { font-size: 36px; }
       .layout { grid-template-columns: 1fr; }
       .detail-top { flex-direction: column; }
       .progress-box { text-align: left; }
       .category-wrap { align-items: stretch; flex-direction: column; }
+      .category-actions { min-width: 0; width: 100%; }
       .small-btn { width: 100%; }
     }
   </style>
@@ -403,7 +467,10 @@
 
     <div class="category-wrap">
       <nav class="categories" id="categoryArea"></nav>
-      <button class="small-btn" onclick="addCategory()">+ 카테고리</button>
+      <div class="category-actions">
+        <button class="small-btn" onclick="addCategory()">+ 카테고리</button>
+        <button class="small-btn" onclick="editCategory()">카테고리 수정</button>
+      </div>
     </div>
 
     <main class="layout">
@@ -411,7 +478,6 @@
         <input class="search" id="searchInput" placeholder="리스트 검색" />
         <div class="list-toolbar">
           <button class="small-btn" onclick="addList()">+ 리스트</button>
-          <button class="small-btn" onclick="editCategory()">카테고리 수정</button>
         </div>
         <div id="listArea"></div>
       </aside>
@@ -422,6 +488,10 @@
             <div class="detail-label" id="detailLabel"></div>
             <h2 class="detail-title" id="detailTitle"></h2>
             <div class="detail-subtitle" id="detailSubtitle"></div>
+            <div class="date-row">
+              <label for="dueDateInput">실행 날짜</label>
+              <input type="date" id="dueDateInput" onchange="updateDueDate()" />
+            </div>
             <div class="top-actions">
               <button class="ghost-btn" onclick="editList()">리스트 제목/내용 수정</button>
               <button class="ghost-btn" onclick="resetList()">체크 초기화</button>
@@ -444,6 +514,11 @@
         </div>
 
         <div id="itemArea"></div>
+
+        <div class="memo-box">
+          <label for="etcMemo">기타</label>
+          <textarea id="etcMemo" placeholder="추가로 기억할 내용을 자유롭게 입력하세요." oninput="updateMemo()"></textarea>
+        </div>
       </section>
     </main>
   </div>
@@ -461,6 +536,8 @@
             id: "japan_trip",
             title: "일본 3박 4일",
             subtitle: "여권 · 환전 · 의류 · 전자기기",
+            dueDate: "",
+            memo: "",
             items: [
               { id: "passport", text: "여권", checked: false, required: true },
               { id: "ticket", text: "항공권 / 호텔 예약 확인", checked: false, required: true },
@@ -475,6 +552,8 @@
             id: "camping",
             title: "1박 2일 캠핑",
             subtitle: "텐트 · 조명 · 식재료 · 방한용품",
+            dueDate: "",
+            memo: "",
             items: [
               { id: "tent", text: "텐트 / 팩 / 망치", checked: false, required: true },
               { id: "chair", text: "의자 / 테이블", checked: false, required: true },
@@ -494,6 +573,8 @@
             id: "export_air",
             title: "항공 수출 체크",
             subtitle: "서류 · 부킹 · 반입 · BL",
+            dueDate: "",
+            memo: "",
             items: [
               { id: "invoice", text: "인보이스 / 패킹리스트 확인", checked: false, required: true },
               { id: "booking", text: "항공 부킹 확인", checked: false, required: true },
@@ -514,6 +595,8 @@
             id: "opening",
             title: "오픈 준비",
             subtitle: "재료 · 홀 · 주방 · 예약",
+            dueDate: "",
+            memo: "",
             items: [
               { id: "stock", text: "재료 재고 확인", checked: false, required: true },
               { id: "tank", text: "수조 상태 확인", checked: false, required: true },
@@ -533,6 +616,8 @@
             id: "moving",
             title: "이사 준비",
             subtitle: "계약 · 주소변경 · 공과금",
+            dueDate: "",
+            memo: "",
             items: [
               { id: "contract", text: "계약서 확인", checked: false, required: true },
               { id: "address", text: "주소 변경", checked: false, required: true },
@@ -646,7 +731,7 @@
               <div class="list-title">${escapeHtml(list.title)}</div>
               <div>${progress}%</div>
             </div>
-            <div class="list-subtitle">${escapeHtml(list.subtitle)}</div>
+            <div class="list-subtitle">${escapeHtml(list.subtitle)}${list.dueDate ? ' · ' + escapeHtml(list.dueDate) : ''}</div>
             <div class="progress-bg"><div class="progress-bar" style="width:${progress}%"></div></div>
           `;
           area.appendChild(button);
@@ -663,6 +748,8 @@
         document.getElementById("detailLabel").textContent = "";
         document.getElementById("detailTitle").textContent = "리스트가 없습니다";
         document.getElementById("detailSubtitle").textContent = "새 리스트를 추가하세요.";
+        document.getElementById("dueDateInput").value = "";
+        document.getElementById("etcMemo").value = "";
         document.getElementById("progressText").textContent = "0%";
         document.getElementById("mainProgressBar").style.width = "0%";
         return;
@@ -672,6 +759,8 @@
       document.getElementById("detailLabel").textContent = category.name + " 체크리스트";
       document.getElementById("detailTitle").textContent = list.title;
       document.getElementById("detailSubtitle").textContent = list.subtitle;
+      document.getElementById("dueDateInput").value = list.dueDate || "";
+      document.getElementById("etcMemo").value = list.memo || "";
       document.getElementById("progressText").textContent = progress + "%";
       document.getElementById("mainProgressBar").style.width = progress + "%";
 
@@ -723,6 +812,8 @@
             id: makeId("list"),
             title: "새 체크리스트",
             subtitle: "설명을 입력하세요",
+            dueDate: "",
+            memo: "",
             items: []
           }
         ]
@@ -763,6 +854,8 @@
         id: makeId("list"),
         title: title.trim(),
         subtitle: (subtitle || "").trim(),
+        dueDate: "",
+        memo: "",
         items: []
       };
 
@@ -806,6 +899,23 @@
       item.checked = !item.checked;
       saveData();
       render();
+    }
+
+    function updateDueDate() {
+      const list = getActiveList();
+      if (!list) return;
+
+      list.dueDate = document.getElementById("dueDateInput").value;
+      saveData();
+      renderLists();
+    }
+
+    function updateMemo() {
+      const list = getActiveList();
+      if (!list) return;
+
+      list.memo = document.getElementById("etcMemo").value;
+      saveData();
     }
 
     function addItem() {
