@@ -4,10 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CheckFlow</title>
-
-  <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/checkflow_icon_192.png">
-  
   <style>
     * { box-sizing: border-box; }
 
@@ -361,9 +357,6 @@
       margin-bottom: 10px;
       background: #ffffff;
       transition: .18s ease;
-      cursor: grab;
-      touch-action: none;
-      user-select: none;
     }
 
     .item.checked {
@@ -380,7 +373,16 @@
       cursor: grab;
       color: #a1a1aa;
       font-weight: 900;
-      padding: 4px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      touch-action: none;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .drag-handle:active {
+      background: #f4f4f5;
+      color: var(--theme-color);
     }
 
     .check-btn {
@@ -779,18 +781,8 @@
       list.items.forEach(item => {
         const row = document.createElement("div");
         row.className = "item" + (item.checked ? " checked" : "");
-        row.draggable = true;
+        row.draggable = false;
         row.dataset.id = item.id;
-
-        row.addEventListener("dragstart", () => {
-          draggedItemId = item.id;
-          row.classList.add("dragging");
-        });
-
-        row.addEventListener("dragend", () => {
-          draggedItemId = null;
-          row.classList.remove("dragging");
-        });
 
         row.addEventListener("dragover", event => event.preventDefault());
 
@@ -799,15 +791,35 @@
           moveItem(draggedItemId, item.id);
         });
 
-        row.addEventListener("touchstart", event => {
-          if (event.target.closest("button") || event.target.closest("input") || event.target.closest("textarea")) return;
+        row.innerHTML = `
+          <div class="drag-handle" draggable="true" title="드래그해서 순서 변경">☰</div>
+          <button class="check-btn" onclick="toggleItem('${item.id}')"></button>
+          <div class="item-text">${escapeHtml(item.text)}${item.required ? '<span class="required">필수 확인 항목</span>' : ''}</div>
+          <button class="delete-btn" onclick="editItem('${item.id}')">수정</button>
+          <button class="delete-btn" onclick="deleteItem('${item.id}')">삭제</button>
+        `;
+        const handle = row.querySelector(".drag-handle");
+
+        handle.addEventListener("dragstart", event => {
+          draggedItemId = item.id;
+          row.classList.add("dragging");
+          event.dataTransfer.effectAllowed = "move";
+        });
+
+        handle.addEventListener("dragend", () => {
+          draggedItemId = null;
+          row.classList.remove("dragging");
+        });
+
+        handle.addEventListener("touchstart", event => {
           touchDraggedItemId = item.id;
           touchStarted = true;
           row.classList.add("dragging");
         }, { passive: true });
 
-        row.addEventListener("touchmove", event => {
+        handle.addEventListener("touchmove", event => {
           if (!touchStarted || !touchDraggedItemId) return;
+          event.preventDefault();
           const touch = event.touches[0];
           const target = document.elementFromPoint(touch.clientX, touch.clientY);
           const targetRow = target?.closest?.(".item");
@@ -817,19 +829,12 @@
           }
         }, { passive: false });
 
-        row.addEventListener("touchend", () => {
+        handle.addEventListener("touchend", () => {
           touchDraggedItemId = null;
           touchStarted = false;
           row.classList.remove("dragging");
         });
 
-        row.innerHTML = `
-          <div class="drag-handle" title="드래그해서 순서 변경">☰</div>
-          <button class="check-btn" onclick="toggleItem('${item.id}')"></button>
-          <div class="item-text">${escapeHtml(item.text)}${item.required ? '<span class="required">필수 확인 항목</span>' : ''}</div>
-          <button class="delete-btn" onclick="editItem('${item.id}')">수정</button>
-          <button class="delete-btn" onclick="deleteItem('${item.id}')">삭제</button>
-        `;
         itemArea.appendChild(row);
       });
     }
