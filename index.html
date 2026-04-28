@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CheckFlow TEST</title>
+  <title>CheckFlow</title>
   <style>
     * { box-sizing: border-box; }
+
+    :root {
+      --theme-color: #8b5cf6;
+      --theme-soft: rgba(139, 92, 246, .28);
+      --theme-pale: rgba(139, 92, 246, .08);
+    }
 
     body {
       margin: 0;
@@ -14,62 +20,362 @@
       color: #ffffff;
     }
 
-    .app { max-width: 1180px; margin: 0 auto; padding: 28px 20px; }
-    .header { margin-bottom: 24px; }
-    .badge { display: inline-block; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.1); color: #d4d4d8; font-size: 12px; margin-bottom: 12px; }
-    h1 { margin: 0; font-size: 44px; letter-spacing: -1px; }
-    .description { margin-top: 10px; color: #a1a1aa; line-height: 1.6; font-size: 14px; }
+    .app {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 20px;
+    }
 
-    .category-wrap { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; }
-    .categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; flex: 1; }
-    .category-btn { border: 0; border-radius: 999px; padding: 13px 18px; white-space: nowrap; background: rgba(255,255,255,.1); color: #ffffff; font-weight: 900; cursor: pointer; position: relative; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
-    .category-btn::before { content: ""; position: absolute; inset: 0; background: var(--cat-color); opacity: .72; z-index: 0; }
-    .category-btn span { position: relative; z-index: 1; }
-    .category-btn.active { color: #ffffff; transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.16); }
-    .category-btn.active::before { opacity: 1; }
-    .small-btn { border: 0; border-radius: 15px; padding: 12px 14px; background: var(--theme-color, #ffffff); color: #ffffff; font-weight: 900; cursor: pointer; white-space: nowrap; box-shadow: 0 10px 24px rgba(0,0,0,.18); }
-    .ghost-btn { border: 0; border-radius: 14px; padding: 10px 12px; background: #f4f4f5; color: #3f3f46; font-weight: 800; cursor: pointer; }
-    .danger-btn { background: #fee2e2; color: #991b1b; }
+    .header {
+      margin-bottom: 24px;
+    }
 
-    .layout { display: grid; grid-template-columns: 360px 1fr; gap: 18px; }
-    .panel { border-radius: 28px; padding: 18px; background: linear-gradient(180deg, var(--theme-soft, rgba(255,255,255,.1)), rgba(255,255,255,.08)); border: 1px solid rgba(255,255,255,.08); }
-    .search { width: 100%; border: 0; outline: none; border-radius: 18px; padding: 14px 16px; margin-bottom: 14px; background: rgba(0,0,0,.35); color: #ffffff; }
+    .badge {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      color: #d4d4d8;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
 
-    .list-toolbar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-    .list-card { width: 100%; border: 0; border-radius: 22px; padding: 16px; margin-bottom: 12px; text-align: left; background: rgba(255,255,255,.1); color: #ffffff; cursor: pointer; border-left: 5px solid transparent; }
-    .list-card.active { background: #ffffff; color: #09090b; border-left-color: var(--theme-color, #09090b); }
-    .list-title-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 7px; }
-    .list-title { font-weight: 900; }
-    .list-subtitle { font-size: 12px; color: #a1a1aa; margin-bottom: 12px; }
-    .list-card.active .list-subtitle { color: #71717a; }
-    .progress-bg { height: 7px; border-radius: 999px; background: rgba(255,255,255,.15); overflow: hidden; }
-    .list-card.active .progress-bg { background: #e4e4e7; }
-    .progress-bar { height: 100%; border-radius: 999px; background: var(--theme-color, #09090b); transition: width .25s ease; }
+    h1 {
+      margin: 0;
+      font-size: 44px;
+      letter-spacing: -1px;
+    }
 
-    .detail { border-radius: 28px; padding: 24px; background: linear-gradient(180deg, #ffffff, var(--theme-pale, #ffffff)); color: #09090b; border-top: 8px solid var(--theme-color, #09090b); }
-    .detail-top { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
-    .detail-label { font-size: 12px; font-weight: 900; color: #71717a; margin-bottom: 8px; }
-    .detail-title { margin: 0; font-size: 32px; letter-spacing: -.8px; }
-    .detail-subtitle { margin-top: 8px; font-size: 14px; color: #71717a; }
-    .top-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-    .progress-box { min-width: 96px; border-radius: 22px; padding: 14px 16px; background: #f4f4f5; text-align: right; }
-    .progress-box span { display: block; font-size: 12px; color: #71717a; margin-bottom: 4px; }
-    .progress-box strong { font-size: 28px; }
+    .description {
+      margin-top: 10px;
+      color: #a1a1aa;
+      line-height: 1.6;
+      font-size: 14px;
+    }
 
-    .add-row { display: flex; gap: 8px; margin: 18px 0; }
-    .add-row input { flex: 1; min-width: 0; border: 1px solid #e4e4e7; border-radius: 18px; padding: 13px 15px; outline: none; }
-    .add-row button { border: 0; border-radius: 18px; padding: 13px 16px; background: var(--theme-color, #09090b); color: #ffffff; font-weight: 900; cursor: pointer; }
+    .category-wrap {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
 
-    .item { display: flex; align-items: center; gap: 12px; border: 1px solid #e4e4e7; border-radius: 22px; padding: 15px; margin-bottom: 10px; background: #ffffff; transition: .18s ease; }
-    .item.checked { background: #f4f4f5; color: #a1a1aa; }
-    .item.dragging { opacity: .45; transform: scale(.99); }
-    .drag-handle { cursor: grab; color: #a1a1aa; font-weight: 900; padding: 4px; }
-    .check-btn { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #d4d4d8; background: #ffffff; cursor: pointer; flex-shrink: 0; }
-    .item.checked .check-btn { background: var(--theme-color, #09090b); border-color: var(--theme-color, #09090b); }
-    .item-text { flex: 1; font-size: 14px; font-weight: 800; }
-    .item.checked .item-text { text-decoration: line-through; }
-    .required { display: block; margin-top: 4px; font-size: 11px; color: #a1a1aa; font-weight: 500; }
-    .delete-btn { border: 0; background: #f4f4f5; color: #71717a; border-radius: 12px; padding: 8px 10px; cursor: pointer; }
+    .categories {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      flex: 1;
+    }
+
+    .category-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 18px;
+      white-space: nowrap;
+      background: rgba(255,255,255,.1);
+      color: #ffffff;
+      font-weight: 900;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+
+    .category-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--cat-color);
+      opacity: .72;
+      z-index: 0;
+    }
+
+    .category-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .category-btn.active {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.16);
+    }
+
+    .category-btn.active::before {
+      opacity: 1;
+    }
+
+    .small-btn {
+      border: 0;
+      border-radius: 15px;
+      padding: 12px 14px;
+      background: var(--theme-color);
+      color: #ffffff;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+
+    .ghost-btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #f4f4f5;
+      color: #3f3f46;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .danger-btn {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      border-radius: 28px;
+      padding: 18px;
+      background: linear-gradient(180deg, var(--theme-soft), rgba(255,255,255,.08));
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .search {
+      width: 100%;
+      border: 0;
+      outline: none;
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      background: rgba(0,0,0,.35);
+      color: #ffffff;
+    }
+
+    .list-toolbar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .list-card {
+      width: 100%;
+      border: 0;
+      border-radius: 22px;
+      padding: 16px;
+      margin-bottom: 12px;
+      text-align: left;
+      background: rgba(255,255,255,.1);
+      color: #ffffff;
+      cursor: pointer;
+      border-left: 5px solid transparent;
+    }
+
+    .list-card.active {
+      background: #ffffff;
+      color: #09090b;
+      border-left-color: var(--theme-color);
+    }
+
+    .list-title-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 7px;
+    }
+
+    .list-title {
+      font-weight: 900;
+    }
+
+    .list-subtitle {
+      font-size: 12px;
+      color: #a1a1aa;
+      margin-bottom: 12px;
+    }
+
+    .list-card.active .list-subtitle {
+      color: #71717a;
+    }
+
+    .progress-bg {
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.15);
+      overflow: hidden;
+    }
+
+    .list-card.active .progress-bg {
+      background: #e4e4e7;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--theme-color);
+      transition: width .25s ease;
+    }
+
+    .detail {
+      border-radius: 28px;
+      padding: 24px;
+      background: linear-gradient(180deg, #ffffff, var(--theme-pale));
+      color: #09090b;
+      border-top: 8px solid var(--theme-color);
+    }
+
+    .detail-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .detail-label {
+      font-size: 12px;
+      font-weight: 900;
+      color: #71717a;
+      margin-bottom: 8px;
+    }
+
+    .detail-title {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: -.8px;
+    }
+
+    .detail-subtitle {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #71717a;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .progress-box {
+      min-width: 96px;
+      border-radius: 22px;
+      padding: 14px 16px;
+      background: #f4f4f5;
+      text-align: right;
+    }
+
+    .progress-box span {
+      display: block;
+      font-size: 12px;
+      color: #71717a;
+      margin-bottom: 4px;
+    }
+
+    .progress-box strong {
+      font-size: 28px;
+    }
+
+    .add-row {
+      display: flex;
+      gap: 8px;
+      margin: 18px 0;
+    }
+
+    .add-row input {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid #e4e4e7;
+      border-radius: 18px;
+      padding: 13px 15px;
+      outline: none;
+    }
+
+    .add-row button {
+      border: 0;
+      border-radius: 18px;
+      padding: 13px 16px;
+      background: var(--theme-color);
+      color: #ffffff;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid #e4e4e7;
+      border-radius: 22px;
+      padding: 15px;
+      margin-bottom: 10px;
+      background: #ffffff;
+      transition: .18s ease;
+    }
+
+    .item.checked {
+      background: #f4f4f5;
+      color: #a1a1aa;
+    }
+
+    .item.dragging {
+      opacity: .45;
+      transform: scale(.99);
+    }
+
+    .drag-handle {
+      cursor: grab;
+      color: #a1a1aa;
+      font-weight: 900;
+      padding: 4px;
+    }
+
+    .check-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #d4d4d8;
+      background: #ffffff;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .item.checked .check-btn {
+      background: var(--theme-color);
+      border-color: var(--theme-color);
+    }
+
+    .item-text {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .item.checked .item-text {
+      text-decoration: line-through;
+    }
+
+    .required {
+      display: block;
+      margin-top: 4px;
+      font-size: 11px;
+      color: #a1a1aa;
+      font-weight: 500;
+    }
+
+    .delete-btn {
+      border: 0;
+      background: #f4f4f5;
+      color: #71717a;
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor: pointer;
+    }
 
     @media (max-width: 850px) {
       h1 { font-size: 36px; }
@@ -84,9 +390,11 @@
 <body>
   <div class="app">
     <header class="header">
-      <div class="badge">상황별 체크 순서 앱 TEST</div>
+      <div class="badge">상황별 체크 순서 앱</div>
       <h1>CheckFlow</h1>
-      <p class="description">카테고리, 체크리스트, 체크 항목을 직접 만들고 수정하는 테스트용 웹앱입니다. 항목은 마우스로 끌어서 순서를 바꿀 수 있습니다.</p>
+      <p class="description">
+        카테고리별 색상으로 구분되는 체크리스트 앱입니다. 카테고리, 리스트, 체크 항목을 직접 만들고 수정할 수 있습니다.
+      </p>
     </header>
 
     <div class="category-wrap">
@@ -137,7 +445,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "checkflow_test_data_v3";
+    const STORAGE_KEY = "checkflow_test_data_v4";
 
     const defaultData = [
       {
@@ -211,6 +519,23 @@
             ]
           }
         ]
+      },
+      {
+        id: "life",
+        name: "생활",
+        color: "#22c55e",
+        lists: [
+          {
+            id: "moving",
+            title: "이사 준비",
+            subtitle: "계약 · 주소변경 · 공과금",
+            items: [
+              { id: "contract", text: "계약서 확인", checked: false, required: true },
+              { id: "address", text: "주소 변경", checked: false, required: true },
+              { id: "utility", text: "전기 / 가스 / 수도 정산", checked: false, required: true }
+            ]
+          }
+        ]
       }
     ];
 
@@ -219,22 +544,42 @@
     let activeListId = data[0]?.lists?.[0]?.id || "";
     let draggedItemId = null;
 
-    function makeId(prefix) { return prefix + "_" + Date.now() + "_" + Math.floor(Math.random() * 1000); }
+    function makeId(prefix) {
+      return prefix + "_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+    }
 
     function loadData() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (!saved) return JSON.parse(JSON.stringify(defaultData));
-      try { return JSON.parse(saved); } catch { return JSON.parse(JSON.stringify(defaultData)); }
+
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return JSON.parse(JSON.stringify(defaultData));
+      }
     }
 
-    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
-    function getActiveCategory() { return data.find(c => c.id === activeCategoryId) || data[0]; }
-    function getActiveList() { const c = getActiveCategory(); return c?.lists.find(l => l.id === activeListId) || c?.lists[0]; }
-    function getProgress(items) { if (!items.length) return 0; return Math.round((items.filter(i => i.checked).length / items.length) * 100); }
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function getActiveCategory() {
+      return data.find(category => category.id === activeCategoryId) || data[0];
+    }
+
+    function getActiveList() {
+      const category = getActiveCategory();
+      return category?.lists.find(list => list.id === activeListId) || category?.lists[0];
+    }
+
+    function getProgress(items) {
+      if (!items.length) return 0;
+      return Math.round((items.filter(item => item.checked).length / items.length) * 100);
+    }
 
     function hexToRgba(hex, alpha) {
       const clean = String(hex || "#09090b").replace("#", "");
-      const full = clean.length === 3 ? clean.split("").map(x => x + x).join("") : clean;
+      const full = clean.length === 3 ? clean.split("").map(value => value + value).join("") : clean;
       const r = parseInt(full.slice(0, 2), 16);
       const g = parseInt(full.slice(2, 4), 16);
       const b = parseInt(full.slice(4, 6), 16);
@@ -243,17 +588,23 @@
 
     function applyTheme() {
       const category = getActiveCategory();
-      const color = category?.color || "#09090b";
+      const color = category?.color || "#8b5cf6";
       document.documentElement.style.setProperty("--theme-color", color);
       document.documentElement.style.setProperty("--theme-soft", hexToRgba(color, .28));
       document.documentElement.style.setProperty("--theme-pale", hexToRgba(color, .08));
     }
 
-    function render() { applyTheme(); renderCategories(); renderLists(); renderDetail(); }
+    function render() {
+      applyTheme();
+      renderCategories();
+      renderLists();
+      renderDetail();
+    }
 
     function renderCategories() {
       const area = document.getElementById("categoryArea");
       area.innerHTML = "";
+
       data.forEach(category => {
         const button = document.createElement("button");
         button.className = "category-btn" + (category.id === activeCategoryId ? " active" : "");
@@ -277,14 +628,20 @@
       if (!category) return;
 
       category.lists
-        .filter(list => [list.title, list.subtitle, ...list.items.map(i => i.text)].join(" ").toLowerCase().includes(keyword))
+        .filter(list => [list.title, list.subtitle, ...list.items.map(item => item.text)].join(" ").toLowerCase().includes(keyword))
         .forEach(list => {
           const progress = getProgress(list.items);
           const button = document.createElement("button");
           button.className = "list-card" + (list.id === activeListId ? " active" : "");
-          button.onclick = () => { activeListId = list.id; render(); };
+          button.onclick = () => {
+            activeListId = list.id;
+            render();
+          };
           button.innerHTML = `
-            <div class="list-title-row"><div class="list-title">${escapeHtml(list.title)}</div><div>${progress}%</div></div>
+            <div class="list-title-row">
+              <div class="list-title">${escapeHtml(list.title)}</div>
+              <div>${progress}%</div>
+            </div>
             <div class="list-subtitle">${escapeHtml(list.subtitle)}</div>
             <div class="progress-bg"><div class="progress-bar" style="width:${progress}%"></div></div>
           `;
@@ -297,6 +654,7 @@
       const list = getActiveList();
       const itemArea = document.getElementById("itemArea");
       itemArea.innerHTML = "";
+
       if (!category || !list) {
         document.getElementById("detailLabel").textContent = "";
         document.getElementById("detailTitle").textContent = "리스트가 없습니다";
@@ -323,11 +681,14 @@
           draggedItemId = item.id;
           row.classList.add("dragging");
         });
+
         row.addEventListener("dragend", () => {
           draggedItemId = null;
           row.classList.remove("dragging");
         });
+
         row.addEventListener("dragover", event => event.preventDefault());
+
         row.addEventListener("drop", event => {
           event.preventDefault();
           moveItem(draggedItemId, item.id);
@@ -347,68 +708,100 @@
     function addCategory() {
       const name = prompt("새 카테고리 이름을 입력하세요. 예: 가족여행, 포워딩, 식당");
       if (!name || !name.trim()) return;
+
       const colors = ["#8b5cf6", "#06b6d4", "#f97316", "#22c55e", "#ec4899", "#f59e0b", "#3b82f6", "#ef4444"];
       const newCategory = {
         id: makeId("cat"),
         name: name.trim(),
         color: colors[data.length % colors.length],
-        lists: [{ id: makeId("list"), title: "새 체크리스트", subtitle: "설명을 입력하세요", items: [] }]
+        lists: [
+          {
+            id: makeId("list"),
+            title: "새 체크리스트",
+            subtitle: "설명을 입력하세요",
+            items: []
+          }
+        ]
       };
+
       data.push(newCategory);
       activeCategoryId = newCategory.id;
       activeListId = newCategory.lists[0].id;
-      saveData(); render();
+      saveData();
+      render();
     }
 
     function editCategory() {
       const category = getActiveCategory();
       if (!category) return;
+
       const name = prompt("카테고리 이름 수정", category.name);
       if (!name || !name.trim()) return;
+
       category.name = name.trim();
+
       const color = prompt("카테고리 색상 코드 수정 예: #8b5cf6", category.color || "#8b5cf6");
       if (color && color.trim()) category.color = color.trim();
-      saveData(); render();
+
+      saveData();
+      render();
     }
 
     function addList() {
       const category = getActiveCategory();
       if (!category) return;
+
       const title = prompt("새 리스트 제목을 입력하세요. 예: 제주도 2박 3일");
       if (!title || !title.trim()) return;
+
       const subtitle = prompt("리스트 설명을 입력하세요. 예: 항공권 · 숙소 · 렌터카 · 옷", "");
-      const list = { id: makeId("list"), title: title.trim(), subtitle: (subtitle || "").trim(), items: [] };
+      const list = {
+        id: makeId("list"),
+        title: title.trim(),
+        subtitle: (subtitle || "").trim(),
+        items: []
+      };
+
       category.lists.push(list);
       activeListId = list.id;
-      saveData(); render();
+      saveData();
+      render();
     }
 
     function editList() {
       const list = getActiveList();
       if (!list) return;
+
       const title = prompt("리스트 제목 수정", list.title);
       if (!title || !title.trim()) return;
+
       const subtitle = prompt("리스트 설명 수정", list.subtitle);
       list.title = title.trim();
       list.subtitle = (subtitle || "").trim();
-      saveData(); render();
+      saveData();
+      render();
     }
 
     function deleteList() {
       const category = getActiveCategory();
       const list = getActiveList();
       if (!category || !list) return;
+
       if (!confirm(`'${list.title}' 리스트를 삭제할까요?`)) return;
-      category.lists = category.lists.filter(l => l.id !== list.id);
+
+      category.lists = category.lists.filter(item => item.id !== list.id);
       activeListId = category.lists[0]?.id || "";
-      saveData(); render();
+      saveData();
+      render();
     }
 
     function toggleItem(itemId) {
-      const item = getActiveList()?.items.find(i => i.id === itemId);
+      const item = getActiveList()?.items.find(item => item.id === itemId);
       if (!item) return;
+
       item.checked = !item.checked;
-      saveData(); render();
+      saveData();
+      render();
     }
 
     function addItem() {
@@ -416,43 +809,61 @@
       const text = input.value.trim();
       const list = getActiveList();
       if (!text || !list) return;
-      list.items.push({ id: makeId("item"), text, checked: false, required: false });
+
+      list.items.push({
+        id: makeId("item"),
+        text,
+        checked: false,
+        required: false
+      });
+
       input.value = "";
-      saveData(); render();
+      saveData();
+      render();
     }
 
     function editItem(itemId) {
-      const item = getActiveList()?.items.find(i => i.id === itemId);
+      const item = getActiveList()?.items.find(item => item.id === itemId);
       if (!item) return;
+
       const text = prompt("체크 항목 수정", item.text);
       if (!text || !text.trim()) return;
+
       item.text = text.trim();
-      saveData(); render();
+      saveData();
+      render();
     }
 
     function deleteItem(itemId) {
       const list = getActiveList();
       if (!list) return;
-      list.items = list.items.filter(i => i.id !== itemId);
-      saveData(); render();
+
+      list.items = list.items.filter(item => item.id !== itemId);
+      saveData();
+      render();
     }
 
     function resetList() {
       const list = getActiveList();
       if (!list) return;
-      list.items.forEach(i => i.checked = false);
-      saveData(); render();
+
+      list.items.forEach(item => item.checked = false);
+      saveData();
+      render();
     }
 
     function moveItem(fromId, toId) {
       if (!fromId || !toId || fromId === toId) return;
+
       const list = getActiveList();
-      const fromIndex = list.items.findIndex(i => i.id === fromId);
-      const toIndex = list.items.findIndex(i => i.id === toId);
+      const fromIndex = list.items.findIndex(item => item.id === fromId);
+      const toIndex = list.items.findIndex(item => item.id === toId);
       if (fromIndex < 0 || toIndex < 0) return;
+
       const [moved] = list.items.splice(fromIndex, 1);
       list.items.splice(toIndex, 0, moved);
-      saveData(); render();
+      saveData();
+      render();
     }
 
     function escapeHtml(value) {
@@ -465,7 +876,10 @@
     }
 
     document.getElementById("searchInput").addEventListener("input", renderLists);
-    document.getElementById("newItemInput").addEventListener("keydown", event => { if (event.key === "Enter") addItem(); });
+    document.getElementById("newItemInput").addEventListener("keydown", event => {
+      if (event.key === "Enter") addItem();
+    });
+
     render();
   </script>
 </body>
