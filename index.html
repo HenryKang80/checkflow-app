@@ -161,6 +161,7 @@
       margin-bottom: 14px;
       background: rgba(0,0,0,.35);
       color: #ffffff;
+      font-size: 16px;
     }
 
     .list-toolbar {
@@ -291,6 +292,7 @@
       color: #09090b;
       font-weight: 800;
       width: 100%;
+      font-size: 16px;
     }
 
     .top-actions {
@@ -332,6 +334,7 @@
       border-radius: 18px;
       padding: 13px 15px;
       outline: none;
+      font-size: 16px;
     }
 
     .add-row button {
@@ -354,6 +357,9 @@
       margin-bottom: 10px;
       background: #ffffff;
       transition: .18s ease;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
     }
 
     .item.checked {
@@ -438,7 +444,7 @@
       border: 0;
       outline: none;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
       line-height: 1.5;
       color: #09090b;
@@ -632,6 +638,8 @@
     let activeCategoryId = data[0]?.id || "";
     let activeListId = data[0]?.lists?.[0]?.id || "";
     let draggedItemId = null;
+    let touchDraggedItemId = null;
+    let touchStarted = false;
 
     function makeId(prefix) {
       return prefix + "_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
@@ -785,6 +793,30 @@
         row.addEventListener("drop", event => {
           event.preventDefault();
           moveItem(draggedItemId, item.id);
+        });
+
+        row.addEventListener("touchstart", event => {
+          if (event.target.closest("button") || event.target.closest("input") || event.target.closest("textarea")) return;
+          touchDraggedItemId = item.id;
+          touchStarted = true;
+          row.classList.add("dragging");
+        }, { passive: true });
+
+        row.addEventListener("touchmove", event => {
+          if (!touchStarted || !touchDraggedItemId) return;
+          const touch = event.touches[0];
+          const target = document.elementFromPoint(touch.clientX, touch.clientY);
+          const targetRow = target?.closest?.(".item");
+          const targetId = targetRow?.dataset?.id;
+          if (targetId && targetId !== touchDraggedItemId) {
+            moveItem(touchDraggedItemId, targetId);
+          }
+        }, { passive: false });
+
+        row.addEventListener("touchend", () => {
+          touchDraggedItemId = null;
+          touchStarted = false;
+          row.classList.remove("dragging");
         });
 
         row.innerHTML = `
