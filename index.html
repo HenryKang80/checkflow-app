@@ -3,30 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#09090b" />
-  <title>CheckFlow</title>
-  <link rel="manifest" href="manifest.json" />
+  <title>CheckFlow TEST</title>
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", sans-serif; background: #09090b; color: #fff; }
-    .app { max-width: 1180px; margin: 0 auto; padding: 28px 20px 80px; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", sans-serif;
+      background: #09090b;
+      color: #ffffff;
+    }
+
+    .app { max-width: 1180px; margin: 0 auto; padding: 28px 20px; }
     .header { margin-bottom: 24px; }
     .badge { display: inline-block; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.1); color: #d4d4d8; font-size: 12px; margin-bottom: 12px; }
     h1 { margin: 0; font-size: 44px; letter-spacing: -1px; }
     .description { margin-top: 10px; color: #a1a1aa; line-height: 1.6; font-size: 14px; }
+
     .category-wrap { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; }
     .categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; flex: 1; }
-    .category-btn { border: 0; border-radius: 999px; padding: 13px 18px; white-space: nowrap; background: rgba(255,255,255,.1); color: #d4d4d8; font-weight: 800; cursor: pointer; }
-    .category-btn.active { background: #fff; color: #09090b; }
-    .small-btn { border: 0; border-radius: 15px; padding: 12px 14px; background: #fff; color: #09090b; font-weight: 900; cursor: pointer; white-space: nowrap; }
+    .category-btn { border: 0; border-radius: 999px; padding: 13px 18px; white-space: nowrap; background: rgba
+    .small-btn { border: 0; border-radius: 15px; padding: 12px 14px; background: #ffffff; color: #09090b; font-weight: 900; cursor: pointer; white-space: nowrap; }
     .ghost-btn { border: 0; border-radius: 14px; padding: 10px 12px; background: #f4f4f5; color: #3f3f46; font-weight: 800; cursor: pointer; }
     .danger-btn { background: #fee2e2; color: #991b1b; }
+
     .layout { display: grid; grid-template-columns: 360px 1fr; gap: 18px; }
     .panel { border-radius: 28px; padding: 18px; background: rgba(255,255,255,.1); }
-    .search { width: 100%; border: 0; outline: none; border-radius: 18px; padding: 14px 16px; margin-bottom: 14px; background: rgba(0,0,0,.35); color: #fff; }
+    .search { width: 100%; border: 0; outline: none; border-radius: 18px; padding: 14px 16px; margin-bottom: 14px; background: rgba(0,0,0,.35); color: #ffffff; }
+
     .list-toolbar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-    .list-card { width: 100%; border: 0; border-radius: 22px; padding: 16px; margin-bottom: 12px; text-align: left; background: rgba(255,255,255,.1); color: #fff; cursor: pointer; }
-    .list-card.active { background: #fff; color: #09090b; }
+    .list-card { width: 100%; border: 0; border-radius: 22px; padding: 16px; margin-bottom: 12px; text-align: left; background: rgba(255,255,255,.1); color: #ffffff; cursor: pointer; }
+    .list-card.active { background: #ffffff; color: #09090b; }
     .list-title-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 7px; }
     .list-title { font-weight: 900; }
     .list-subtitle { font-size: 12px; color: #a1a1aa; margin-bottom: 12px; }
@@ -34,7 +41,8 @@
     .progress-bg { height: 7px; border-radius: 999px; background: rgba(255,255,255,.15); overflow: hidden; }
     .list-card.active .progress-bg { background: #e4e4e7; }
     .progress-bar { height: 100%; border-radius: 999px; background: #09090b; transition: width .25s ease; }
-    .detail { border-radius: 28px; padding: 24px; background: #fff; color: #09090b; }
+
+    .detail { border-radius: 28px; padding: 24px; background: #ffffff; color: #09090b; }
     .detail-top { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
     .detail-label { font-size: 12px; font-weight: 900; color: #71717a; margin-bottom: 8px; }
     .detail-title { margin: 0; font-size: 32px; letter-spacing: -.8px; }
@@ -43,58 +51,393 @@
     .progress-box { min-width: 96px; border-radius: 22px; padding: 14px 16px; background: #f4f4f5; text-align: right; }
     .progress-box span { display: block; font-size: 12px; color: #71717a; margin-bottom: 4px; }
     .progress-box strong { font-size: 28px; }
+
     .add-row { display: flex; gap: 8px; margin: 18px 0; }
     .add-row input { flex: 1; min-width: 0; border: 1px solid #e4e4e7; border-radius: 18px; padding: 13px 15px; outline: none; }
-    .add-row button { border: 0; border-radius: 18px; padding: 13px 16px; background: #09090b; color: #fff; font-weight: 900; cursor: pointer; }
-    .item { display: flex; align-items: center; gap: 12px; border: 1px solid #e4e4e7; border-radius: 22px; padding: 15px; margin-bottom: 10px; background: #fff; transition: .18s ease; }
+    .add-row button { border: 0; border-radius: 18px; padding: 13px 16px; background: #09090b; color: #ffffff; font-weight: 900; cursor: pointer; }
+
+    .item { display: flex; align-items: center; gap: 12px; border: 1px solid #e4e4e7; border-radius: 22px; padding: 15px; margin-bottom: 10px; background: #ffffff; transition: .18s ease; }
     .item.checked { background: #f4f4f5; color: #a1a1aa; }
     .item.dragging { opacity: .45; transform: scale(.99); }
-    .drag-handle { cursor: grab; color: #a1a1aa; font-weight: 900; padding: 4px; touch-action: none; }
-    .check-btn { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #d4d4d8; background: #fff; cursor: pointer; flex-shrink: 0; }
+    .drag-handle { cursor: grab; color: #a1a1aa; font-weight: 900; padding: 4px; }
+    .check-btn { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #d4d4d8; background: #ffffff; cursor: pointer; flex-shrink: 0; }
     .item.checked .check-btn { background: #09090b; border-color: #09090b; }
     .item-text { flex: 1; font-size: 14px; font-weight: 800; }
     .item.checked .item-text { text-decoration: line-through; }
     .required { display: block; margin-top: 4px; font-size: 11px; color: #a1a1aa; font-weight: 500; }
     .delete-btn { border: 0; background: #f4f4f5; color: #71717a; border-radius: 12px; padding: 8px 10px; cursor: pointer; }
-    .install-tip { position: fixed; left: 16px; right: 16px; bottom: 14px; max-width: 720px; margin: 0 auto; border-radius: 22px; padding: 14px 16px; background: rgba(255,255,255,.92); color: #09090b; box-shadow: 0 18px 50px rgba(0,0,0,.35); font-size: 13px; display: none; }
-    @media (max-width: 850px) { h1 { font-size: 36px; } .layout { grid-template-columns: 1fr; } .detail-top { flex-direction: column; } .progress-box { text-align: left; } .category-wrap { align-items: stretch; flex-direction: column; } .small-btn { width: 100%; } }
+
+    @media (max-width: 850px) {
+      h1 { font-size: 36px; }
+      .layout { grid-template-columns: 1fr; }
+      .detail-top { flex-direction: column; }
+      .progress-box { text-align: left; }
+      .category-wrap { align-items: stretch; flex-direction: column; }
+      .small-btn { width: 100%; }
+    }
   </style>
 </head>
 <body>
   <div class="app">
-    <header class="header"><div class="badge">홈화면 설치 가능 TEST 앱</div><h1>CheckFlow</h1><p class="description">카테고리, 체크리스트, 체크 항목을 직접 만들고 수정하는 웹앱입니다. 항목은 마우스 또는 터치로 끌어서 순서를 바꿀 수 있습니다.</p></header>
-    <div class="category-wrap"><nav class="categories" id="categoryArea"></nav><button class="small-btn" onclick="addCategory()">+ 카테고리</button></div>
-    <main class="layout"><aside class="panel"><input class="search" id="searchInput" placeholder="리스트 검색" /><div class="list-toolbar"><button class="small-btn" onclick="addList()">+ 리스트</button><button class="small-btn" onclick="editCategory()">카테고리 수정</button></div><div id="listArea"></div></aside><section class="detail"><div class="detail-top"><div><div class="detail-label" id="detailLabel"></div><h2 class="detail-title" id="detailTitle"></h2><div class="detail-subtitle" id="detailSubtitle"></div><div class="top-actions"><button class="ghost-btn" onclick="editList()">리스트 제목/내용 수정</button><button class="ghost-btn" onclick="resetList()">체크 초기화</button><button class="ghost-btn danger-btn" onclick="deleteList()">리스트 삭제</button></div></div><div class="progress-box"><span>진행률</span><strong id="progressText">0%</strong></div></div><div class="progress-bg"><div class="progress-bar" id="mainProgressBar"></div></div><div class="add-row"><input id="newItemInput" placeholder="새 체크 항목 추가" /><button onclick="addItem()">추가</button></div><div id="itemArea"></div></section></main>
+    <header class="header">
+      <div class="badge">상황별 체크 순서 앱 TEST</div>
+      <h1>CheckFlow</h1>
+      <p class="description">카테고리, 체크리스트, 체크 항목을 직접 만들고 수정하는 테스트용 웹앱입니다. 항목은 마우스로 끌어서 순서를 바꿀 수 있습니다.</p>
+    </header>
+
+    <div class="category-wrap">
+      <nav class="categories" id="categoryArea"></nav>
+      <button class="small-btn" onclick="addCategory()">+ 카테고리</button>
+    </div>
+
+    <main class="layout">
+      <aside class="panel">
+        <input class="search" id="searchInput" placeholder="리스트 검색" />
+        <div class="list-toolbar">
+          <button class="small-btn" onclick="addList()">+ 리스트</button>
+          <button class="small-btn" onclick="editCategory()">카테고리 수정</button>
+        </div>
+        <div id="listArea"></div>
+      </aside>
+
+      <section class="detail">
+        <div class="detail-top">
+          <div>
+            <div class="detail-label" id="detailLabel"></div>
+            <h2 class="detail-title" id="detailTitle"></h2>
+            <div class="detail-subtitle" id="detailSubtitle"></div>
+            <div class="top-actions">
+              <button class="ghost-btn" onclick="editList()">리스트 제목/내용 수정</button>
+              <button class="ghost-btn" onclick="resetList()">체크 초기화</button>
+              <button class="ghost-btn danger-btn" onclick="deleteList()">리스트 삭제</button>
+            </div>
+          </div>
+          <div class="progress-box">
+            <span>진행률</span>
+            <strong id="progressText">0%</strong>
+          </div>
+        </div>
+
+        <div class="progress-bg">
+          <div class="progress-bar" id="mainProgressBar"></div>
+        </div>
+
+        <div class="add-row">
+          <input id="newItemInput" placeholder="새 체크 항목 추가" />
+          <button onclick="addItem()">추가</button>
+        </div>
+
+        <div id="itemArea"></div>
+      </section>
+    </main>
   </div>
-  <div class="install-tip" id="installTip">휴대폰에서는 브라우저 메뉴에서 “홈 화면에 추가”를 누르면 앱처럼 사용할 수 있습니다.</div>
-<script>
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js')); }
-const STORAGE_KEY = "checkflow_app_data_v1";
-const defaultData = [{ id:"travel", name:"여행", lists:[{ id:"japan_trip", title:"일본 3박 4일", subtitle:"여권 · 환전 · 의류 · 전자기기", items:[{id:"passport",text:"여권",checked:false,required:true},{id:"ticket",text:"항공권 / 호텔 예약 확인",checked:false,required:true},{id:"money",text:"엔화 / 해외결제 카드",checked:false,required:true},{id:"charger",text:"휴대폰 충전기",checked:false,required:true},{id:"adapter",text:"돼지코 어댑터",checked:false,required:false},{id:"clothes",text:"계절에 맞는 옷",checked:false,required:true},{id:"medicine",text:"상비약",checked:false,required:false}]},{ id:"camping", title:"1박 2일 캠핑", subtitle:"텐트 · 조명 · 식재료 · 방한용품", items:[{id:"tent",text:"텐트 / 팩 / 망치",checked:false,required:true},{id:"chair",text:"의자 / 테이블",checked:false,required:true},{id:"light",text:"랜턴 / 보조배터리",checked:false,required:true},{id:"food",text:"식재료 / 물 / 간식",checked:false,required:true},{id:"blanket",text:"침낭 / 담요",checked:false,required:true}]}]},{ id:"work", name:"업무", lists:[{ id:"export_air", title:"항공 수출 체크", subtitle:"서류 · 부킹 · 반입 · BL", items:[{id:"invoice",text:"인보이스 / 패킹리스트 확인",checked:false,required:true},{id:"booking",text:"항공 부킹 확인",checked:false,required:true},{id:"pickup",text:"픽업 일정 확인",checked:false,required:true},{id:"customs",text:"수출신고 완료",checked:false,required:true},{id:"warehouse",text:"화물 반입 완료",checked:false,required:true},{id:"mawb",text:"MAWB / HAWB 확인",checked:false,required:true}]}]},{ id:"restaurant", name:"식당", lists:[{ id:"opening", title:"오픈 준비", subtitle:"재료 · 홀 · 주방 · 예약", items:[{id:"stock",text:"재료 재고 확인",checked:false,required:true},{id:"tank",text:"수조 상태 확인",checked:false,required:true},{id:"side",text:"기본찬 준비",checked:false,required:true},{id:"clean",text:"홀 / 화장실 청결 확인",checked:false,required:true},{id:"reservation",text:"예약 현황 확인",checked:false,required:false}]}]}];
-let data = loadData(); let activeCategoryId = data[0]?.id || ""; let activeListId = data[0]?.lists?.[0]?.id || ""; let draggedItemId = null;
-function makeId(prefix){ return prefix + "_" + Date.now() + "_" + Math.floor(Math.random()*1000); }
-function loadData(){ const saved = localStorage.getItem(STORAGE_KEY); if(!saved) return JSON.parse(JSON.stringify(defaultData)); try{return JSON.parse(saved);}catch{return JSON.parse(JSON.stringify(defaultData));}}
-function saveData(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
-function getActiveCategory(){ return data.find(c=>c.id===activeCategoryId) || data[0]; }
-function getActiveList(){ const c=getActiveCategory(); return c?.lists.find(l=>l.id===activeListId) || c?.lists[0]; }
-function getProgress(items){ if(!items.length) return 0; return Math.round((items.filter(i=>i.checked).length/items.length)*100); }
-function render(){ renderCategories(); renderLists(); renderDetail(); }
-function renderCategories(){ const area=document.getElementById('categoryArea'); area.innerHTML=''; data.forEach(category=>{ const b=document.createElement('button'); b.className='category-btn'+(category.id===activeCategoryId?' active':''); b.textContent=category.name; b.onclick=()=>{ activeCategoryId=category.id; activeListId=category.lists[0]?.id || ''; document.getElementById('searchInput').value=''; render();}; area.appendChild(b);});}
-function renderLists(){ const area=document.getElementById('listArea'); const keyword=document.getElementById('searchInput').value.trim().toLowerCase(); const category=getActiveCategory(); area.innerHTML=''; if(!category)return; category.lists.filter(list=>[list.title,list.subtitle,...list.items.map(i=>i.text)].join(' ').toLowerCase().includes(keyword)).forEach(list=>{ const progress=getProgress(list.items); const b=document.createElement('button'); b.className='list-card'+(list.id===activeListId?' active':''); b.onclick=()=>{activeListId=list.id; render();}; b.innerHTML=`<div class="list-title-row"><div class="list-title">${escapeHtml(list.title)}</div><div>${progress}%</div></div><div class="list-subtitle">${escapeHtml(list.subtitle)}</div><div class="progress-bg"><div class="progress-bar" style="width:${progress}%"></div></div>`; area.appendChild(b);});}
-function renderDetail(){ const category=getActiveCategory(); const list=getActiveList(); const itemArea=document.getElementById('itemArea'); itemArea.innerHTML=''; if(!category||!list){document.getElementById('detailLabel').textContent='';document.getElementById('detailTitle').textContent='리스트가 없습니다';document.getElementById('detailSubtitle').textContent='새 리스트를 추가하세요.';document.getElementById('progressText').textContent='0%';document.getElementById('mainProgressBar').style.width='0%';return;} const progress=getProgress(list.items); document.getElementById('detailLabel').textContent=category.name+' 체크리스트'; document.getElementById('detailTitle').textContent=list.title; document.getElementById('detailSubtitle').textContent=list.subtitle; document.getElementById('progressText').textContent=progress+'%'; document.getElementById('mainProgressBar').style.width=progress+'%'; list.items.forEach(item=>{ const row=document.createElement('div'); row.className='item'+(item.checked?' checked':''); row.draggable=true; row.dataset.id=item.id; row.addEventListener('dragstart',()=>{draggedItemId=item.id;row.classList.add('dragging');}); row.addEventListener('dragend',()=>{draggedItemId=null;row.classList.remove('dragging');}); row.addEventListener('dragover',e=>e.preventDefault()); row.addEventListener('drop',e=>{e.preventDefault();moveItem(draggedItemId,item.id);}); row.innerHTML=`<div class="drag-handle" title="드래그해서 순서 변경">☰</div><button class="check-btn" onclick="toggleItem('${item.id}')"></button><div class="item-text">${escapeHtml(item.text)}${item.required?'<span class="required">필수 확인 항목</span>':''}</div><button class="delete-btn" onclick="editItem('${item.id}')">수정</button><button class="delete-btn" onclick="deleteItem('${item.id}')">삭제</button>`; itemArea.appendChild(row);}); }
-function addCategory(){ const name=prompt('새 카테고리 이름을 입력하세요. 예: 가족여행, 포워딩, 식당'); if(!name||!name.trim())return; const c={id:makeId('cat'),name:name.trim(),lists:[{id:makeId('list'),title:'새 체크리스트',subtitle:'설명을 입력하세요',items:[]}]}; data.push(c); activeCategoryId=c.id; activeListId=c.lists[0].id; saveData(); render(); }
-function editCategory(){ const c=getActiveCategory(); if(!c)return; const name=prompt('카테고리 이름 수정',c.name); if(!name||!name.trim())return; c.name=name.trim(); saveData(); render(); }
-function addList(){ const c=getActiveCategory(); if(!c)return; const title=prompt('새 리스트 제목을 입력하세요. 예: 제주도 2박 3일'); if(!title||!title.trim())return; const subtitle=prompt('리스트 설명을 입력하세요. 예: 항공권 · 숙소 · 렌터카 · 옷',''); const list={id:makeId('list'),title:title.trim(),subtitle:(subtitle||'').trim(),items:[]}; c.lists.push(list); activeListId=list.id; saveData(); render(); }
-function editList(){ const list=getActiveList(); if(!list)return; const title=prompt('리스트 제목 수정',list.title); if(!title||!title.trim())return; const subtitle=prompt('리스트 설명 수정',list.subtitle); list.title=title.trim(); list.subtitle=(subtitle||'').trim(); saveData(); render(); }
-function deleteList(){ const c=getActiveCategory(); const list=getActiveList(); if(!c||!list)return; if(!confirm(`'${list.title}' 리스트를 삭제할까요?`))return; c.lists=c.lists.filter(l=>l.id!==list.id); activeListId=c.lists[0]?.id||''; saveData(); render(); }
-function toggleItem(itemId){ const item=getActiveList()?.items.find(i=>i.id===itemId); if(!item)return; item.checked=!item.checked; saveData(); render(); }
-function addItem(){ const input=document.getElementById('newItemInput'); const text=input.value.trim(); const list=getActiveList(); if(!text||!list)return; list.items.push({id:makeId('item'),text,checked:false,required:false}); input.value=''; saveData(); render(); }
-function editItem(itemId){ const item=getActiveList()?.items.find(i=>i.id===itemId); if(!item)return; const text=prompt('체크 항목 수정',item.text); if(!text||!text.trim())return; item.text=text.trim(); saveData(); render(); }
-function deleteItem(itemId){ const list=getActiveList(); if(!list)return; list.items=list.items.filter(i=>i.id!==itemId); saveData(); render(); }
-function resetList(){ const list=getActiveList(); if(!list)return; list.items.forEach(i=>i.checked=false); saveData(); render(); }
-function moveItem(fromId,toId){ if(!fromId||!toId||fromId===toId)return; const list=getActiveList(); const fromIndex=list.items.findIndex(i=>i.id===fromId); const toIndex=list.items.findIndex(i=>i.id===toId); if(fromIndex<0||toIndex<0)return; const [moved]=list.items.splice(fromIndex,1); list.items.splice(toIndex,0,moved); saveData(); render(); }
-function escapeHtml(value){ return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
-document.getElementById('searchInput').addEventListener('input',renderLists); document.getElementById('newItemInput').addEventListener('keydown',e=>{if(e.key==='Enter')addItem();}); setTimeout(()=>{document.getElementById('installTip').style.display='block'; setTimeout(()=>document.getElementById('installTip').style.display='none',7000);},1000); render();
-</script>
+
+  <script>
+    const STORAGE_KEY = "checkflow_test_data_v2";
+
+    const defaultData = [
+      {
+        id: "travel",
+        name: "여행",
+        lists: [
+          {
+            id: "japan_trip",
+            title: "일본 3박 4일",
+            subtitle: "여권 · 환전 · 의류 · 전자기기",
+            items: [
+              { id: "passport", text: "여권", checked: false, required: true },
+              { id: "ticket", text: "항공권 / 호텔 예약 확인", checked: false, required: true },
+              { id: "money", text: "엔화 / 해외결제 카드", checked: false, required: true },
+              { id: "charger", text: "휴대폰 충전기", checked: false, required: true },
+              { id: "adapter", text: "돼지코 어댑터", checked: false, required: false },
+              { id: "clothes", text: "계절에 맞는 옷", checked: false, required: true },
+              { id: "medicine", text: "상비약", checked: false, required: false }
+            ]
+          },
+          {
+            id: "camping",
+            title: "1박 2일 캠핑",
+            subtitle: "텐트 · 조명 · 식재료 · 방한용품",
+            items: [
+              { id: "tent", text: "텐트 / 팩 / 망치", checked: false, required: true },
+              { id: "chair", text: "의자 / 테이블", checked: false, required: true },
+              { id: "light", text: "랜턴 / 보조배터리", checked: false, required: true },
+              { id: "food", text: "식재료 / 물 / 간식", checked: false, required: true },
+              { id: "blanket", text: "침낭 / 담요", checked: false, required: true }
+            ]
+          }
+        ]
+      },
+      {
+        id: "work",
+        name: "업무",
+        lists: [
+          {
+            id: "export_air",
+            title: "항공 수출 체크",
+            subtitle: "서류 · 부킹 · 반입 · BL",
+            items: [
+              { id: "invoice", text: "인보이스 / 패킹리스트 확인", checked: false, required: true },
+              { id: "booking", text: "항공 부킹 확인", checked: false, required: true },
+              { id: "pickup", text: "픽업 일정 확인", checked: false, required: true },
+              { id: "customs", text: "수출신고 완료", checked: false, required: true },
+              { id: "warehouse", text: "화물 반입 완료", checked: false, required: true },
+              { id: "mawb", text: "MAWB / HAWB 확인", checked: false, required: true }
+            ]
+          }
+        ]
+      },
+      {
+        id: "restaurant",
+        name: "식당",
+        lists: [
+          {
+            id: "opening",
+            title: "오픈 준비",
+            subtitle: "재료 · 홀 · 주방 · 예약",
+            items: [
+              { id: "stock", text: "재료 재고 확인", checked: false, required: true },
+              { id: "tank", text: "수조 상태 확인", checked: false, required: true },
+              { id: "side", text: "기본찬 준비", checked: false, required: true },
+              { id: "clean", text: "홀 / 화장실 청결 확인", checked: false, required: true },
+              { id: "reservation", text: "예약 현황 확인", checked: false, required: false }
+            ]
+          }
+        ]
+      }
+    ];
+
+    let data = loadData();
+    let activeCategoryId = data[0]?.id || "";
+    let activeListId = data[0]?.lists?.[0]?.id || "";
+    let draggedItemId = null;
+
+    function makeId(prefix) { return prefix + "_" + Date.now() + "_" + Math.floor(Math.random() * 1000); }
+
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return JSON.parse(JSON.stringify(defaultData));
+      try { return JSON.parse(saved); } catch { return JSON.parse(JSON.stringify(defaultData)); }
+    }
+
+    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+    function getActiveCategory() { return data.find(c => c.id === activeCategoryId) || data[0]; }
+    function getActiveList() { const c = getActiveCategory(); return c?.lists.find(l => l.id === activeListId) || c?.lists[0]; }
+    function getProgress(items) { if (!items.length) return 0; return Math.round((items.filter(i => i.checked).length / items.length) * 100); }
+
+    function render() { renderCategories(); renderLists(); renderDetail(); }
+
+    function renderCategories() {
+      const area = document.getElementById("categoryArea");
+      area.innerHTML = "";
+      data.forEach(category => {
+        const button = document.createElement("button");
+        button.className = "category-btn" + (category.id === activeCategoryId ? " active" : "");
+        button.textContent = category.name;
+        button.onclick = () => {
+          activeCategoryId = category.id;
+          activeListId = category.lists[0]?.id || "";
+          document.getElementById("searchInput").value = "";
+          render();
+        };
+        area.appendChild(button);
+      });
+    }
+
+    function renderLists() {
+      const area = document.getElementById("listArea");
+      const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+      const category = getActiveCategory();
+      area.innerHTML = "";
+      if (!category) return;
+
+      category.lists
+        .filter(list => [list.title, list.subtitle, ...list.items.map(i => i.text)].join(" ").toLowerCase().includes(keyword))
+        .forEach(list => {
+          const progress = getProgress(list.items);
+          const button = document.createElement("button");
+          button.className = "list-card" + (list.id === activeListId ? " active" : "");
+          button.onclick = () => { activeListId = list.id; render(); };
+          button.innerHTML = `
+            <div class="list-title-row"><div class="list-title">${escapeHtml(list.title)}</div><div>${progress}%</div></div>
+            <div class="list-subtitle">${escapeHtml(list.subtitle)}</div>
+            <div class="progress-bg"><div class="progress-bar" style="width:${progress}%"></div></div>
+          `;
+          area.appendChild(button);
+        });
+    }
+
+    function renderDetail() {
+      const category = getActiveCategory();
+      const list = getActiveList();
+      const itemArea = document.getElementById("itemArea");
+      itemArea.innerHTML = "";
+      if (!category || !list) {
+        document.getElementById("detailLabel").textContent = "";
+        document.getElementById("detailTitle").textContent = "리스트가 없습니다";
+        document.getElementById("detailSubtitle").textContent = "새 리스트를 추가하세요.";
+        document.getElementById("progressText").textContent = "0%";
+        document.getElementById("mainProgressBar").style.width = "0%";
+        return;
+      }
+
+      const progress = getProgress(list.items);
+      document.getElementById("detailLabel").textContent = category.name + " 체크리스트";
+      document.getElementById("detailTitle").textContent = list.title;
+      document.getElementById("detailSubtitle").textContent = list.subtitle;
+      document.getElementById("progressText").textContent = progress + "%";
+      document.getElementById("mainProgressBar").style.width = progress + "%";
+
+      list.items.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "item" + (item.checked ? " checked" : "");
+        row.draggable = true;
+        row.dataset.id = item.id;
+
+        row.addEventListener("dragstart", () => {
+          draggedItemId = item.id;
+          row.classList.add("dragging");
+        });
+        row.addEventListener("dragend", () => {
+          draggedItemId = null;
+          row.classList.remove("dragging");
+        });
+        row.addEventListener("dragover", event => event.preventDefault());
+        row.addEventListener("drop", event => {
+          event.preventDefault();
+          moveItem(draggedItemId, item.id);
+        });
+
+        row.innerHTML = `
+          <div class="drag-handle" title="드래그해서 순서 변경">☰</div>
+          <button class="check-btn" onclick="toggleItem('${item.id}')"></button>
+          <div class="item-text">${escapeHtml(item.text)}${item.required ? '<span class="required">필수 확인 항목</span>' : ''}</div>
+          <button class="delete-btn" onclick="editItem('${item.id}')">수정</button>
+          <button class="delete-btn" onclick="deleteItem('${item.id}')">삭제</button>
+        `;
+        itemArea.appendChild(row);
+      });
+    }
+
+    function addCategory() {
+      const name = prompt("새 카테고리 이름을 입력하세요. 예: 가족여행, 포워딩, 식당");
+      if (!name || !name.trim()) return;
+      const newCategory = {
+        id: makeId("cat"),
+        name: name.trim(),
+        lists: [{ id: makeId("list"), title: "새 체크리스트", subtitle: "설명을 입력하세요", items: [] }]
+      };
+      data.push(newCategory);
+      activeCategoryId = newCategory.id;
+      activeListId = newCategory.lists[0].id;
+      saveData(); render();
+    }
+
+    function editCategory() {
+      const category = getActiveCategory();
+      if (!category) return;
+      const name = prompt("카테고리 이름 수정", category.name);
+      if (!name || !name.trim()) return;
+      category.name = name.trim();
+      saveData(); render();
+    }
+
+    function addList() {
+      const category = getActiveCategory();
+      if (!category) return;
+      const title = prompt("새 리스트 제목을 입력하세요. 예: 제주도 2박 3일");
+      if (!title || !title.trim()) return;
+      const subtitle = prompt("리스트 설명을 입력하세요. 예: 항공권 · 숙소 · 렌터카 · 옷", "");
+      const list = { id: makeId("list"), title: title.trim(), subtitle: (subtitle || "").trim(), items: [] };
+      category.lists.push(list);
+      activeListId = list.id;
+      saveData(); render();
+    }
+
+    function editList() {
+      const list = getActiveList();
+      if (!list) return;
+      const title = prompt("리스트 제목 수정", list.title);
+      if (!title || !title.trim()) return;
+      const subtitle = prompt("리스트 설명 수정", list.subtitle);
+      list.title = title.trim();
+      list.subtitle = (subtitle || "").trim();
+      saveData(); render();
+    }
+
+    function deleteList() {
+      const category = getActiveCategory();
+      const list = getActiveList();
+      if (!category || !list) return;
+      if (!confirm(`'${list.title}' 리스트를 삭제할까요?`)) return;
+      category.lists = category.lists.filter(l => l.id !== list.id);
+      activeListId = category.lists[0]?.id || "";
+      saveData(); render();
+    }
+
+    function toggleItem(itemId) {
+      const item = getActiveList()?.items.find(i => i.id === itemId);
+      if (!item) return;
+      item.checked = !item.checked;
+      saveData(); render();
+    }
+
+    function addItem() {
+      const input = document.getElementById("newItemInput");
+      const text = input.value.trim();
+      const list = getActiveList();
+      if (!text || !list) return;
+      list.items.push({ id: makeId("item"), text, checked: false, required: false });
+      input.value = "";
+      saveData(); render();
+    }
+
+    function editItem(itemId) {
+      const item = getActiveList()?.items.find(i => i.id === itemId);
+      if (!item) return;
+      const text = prompt("체크 항목 수정", item.text);
+      if (!text || !text.trim()) return;
+      item.text = text.trim();
+      saveData(); render();
+    }
+
+    function deleteItem(itemId) {
+      const list = getActiveList();
+      if (!list) return;
+      list.items = list.items.filter(i => i.id !== itemId);
+      saveData(); render();
+    }
+
+    function resetList() {
+      const list = getActiveList();
+      if (!list) return;
+      list.items.forEach(i => i.checked = false);
+      saveData(); render();
+    }
+
+    function moveItem(fromId, toId) {
+      if (!fromId || !toId || fromId === toId) return;
+      const list = getActiveList();
+      const fromIndex = list.items.findIndex(i => i.id === fromId);
+      const toIndex = list.items.findIndex(i => i.id === toId);
+      if (fromIndex < 0 || toIndex < 0) return;
+      const [moved] = list.items.splice(fromIndex, 1);
+      list.items.splice(toIndex, 0, moved);
+      saveData(); render();
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    document.getElementById("searchInput").addEventListener("input", renderLists);
+    document.getElementById("newItemInput").addEventListener("keydown", event => { if (event.key === "Enter") addItem(); });
+    render();
+  </script>
 </body>
 </html>
